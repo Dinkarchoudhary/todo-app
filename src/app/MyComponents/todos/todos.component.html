@@ -1,0 +1,28 @@
+<div class="container mt-1">
+    <h1 class="text-center mb-2">Task Tracker</h1>
+    <app-add-todo (todoAdd)="addTodo($event)"></app-add-todo>
+    <p class="fs-4 text-info text-center mt-3">Your Tasks</p>
+    <hr class="my-4" style="border-top: 3px solid #f00;">
+    <div *ngIf="todos?.length === 0; else elseBlock" class="text-center text-muted fw-bold fs-5">
+      No Todos to display
+    </div>
+    <ng-template #elseBlock>
+      <div *ngFor="let todo of todos; index as i">
+        <app-todo-item [todo]="todo" [i]="i" (todoDelete)="deleteTodo($event)" (todoCheckBox)="toggleTodo($event)"></app-todo-item>
+      </div>
+    </ng-template>
+  </div>
+  
+<!--  Old TODO List Code -->
+<!-- <div class="container">
+  <h1 class="text-center mb-3">Task Tracker</h1>
+  <app-add-todo (todoAdd)="addTodo($event)" ></app-add-todo>
+  <p class="fs-3 fst-italic text-info">Task Tracker</p>
+  <hr style="height:1px;border-top:3px solid #f00" />
+  <div *ngIf="this.todos?.length==0; else elseBlock">No Todos to display</div>
+      <ng-template #elseBlock>
+          <div *ngFor="let todo of todos; index as i">
+              <app-todo-item [todo] ="todo" [i]="i" (todoDelete)="deleteTodo($event)" (todoCheckBox)="toggleTodo($event)"></app-todo-item>
+          </div>
+      </ng-template>
+</div> -->
