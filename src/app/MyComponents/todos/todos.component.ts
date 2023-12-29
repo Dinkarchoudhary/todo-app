@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Todo } from '../../Todo';
 
 @Component({
@@ -8,7 +8,11 @@ import { Todo } from '../../Todo';
 })
 export class TodosComponent implements OnInit {
   todos: Todo[] | undefined;
+  filteredTodos: Todo[] = []; 
+  originalTodos: Todo[] = [];
   localItem :string | null;
+  searchInput : string | undefined; 
+  //@Input() name:string='';
   constructor() {
     this.localItem = this.isLocalStorageAvailable() ? localStorage.getItem("todos") : null;
     if(this.localItem == null){
@@ -25,6 +29,16 @@ export class TodosComponent implements OnInit {
     //     active: true
     //   }
     // ]
+  }
+
+  onSearch(){
+    this.todos = this.searchInput === '' ? this.originalTodos : this.todos;
+    this.filteredTodos = this.todos
+    ? this.todos.filter((todo) =>
+        (todo.title ?? '').toLowerCase().includes((this.searchInput || '').toLowerCase())
+      ): [];
+    this.originalTodos = this.todos ?? [];
+    this.todos = this.filteredTodos;
   }
 
   private isLocalStorageAvailable(): boolean {
